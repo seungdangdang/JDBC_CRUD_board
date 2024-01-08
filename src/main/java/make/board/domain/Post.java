@@ -2,9 +2,9 @@ package make.board.domain;
 
 public class Post {
     private Long id;
-    private String name;
-    private String title;
-    private String content;
+    private String inputName;
+    private String inputTitle;
+    private String inputContent;
 
     public Long getId() {
         return id;
@@ -14,27 +14,27 @@ public class Post {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getInputName() {
+        return inputName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setInputName(String inputName) {
+        this.inputName = inputName;
     }
 
-    public String getTitle() {
-        return title;
+    public String getInputTitle() {
+        return inputTitle;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setInputTitle(String inputTitle) {
+        this.inputTitle = inputTitle;
     }
 
-    public String getContent() {
-        return content;
+    public String getInputContent() {
+        return inputContent;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setInputContent(String inputContent) {
+        this.inputContent = inputContent;
     }
 }
