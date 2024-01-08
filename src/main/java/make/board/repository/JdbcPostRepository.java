@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
@@ -14,6 +15,7 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 public class JdbcPostRepository implements PostRepository {
 
     private final DataSource dataSource;
+
     public JdbcPostRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
@@ -67,7 +69,29 @@ public class JdbcPostRepository implements PostRepository {
 
     @Override
     public List<Post> findAll() {
-        return null;
+        String sql = "select * from post";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            List<Post> posts = new ArrayList<>();
+            while (rs.next()) {
+                Post post = new Post();
+                post.setId(rs.getLong("id"));
+                post.setInputName(rs.getString("name"));
+                post.setInputTitle(rs.getString("title"));
+                post.setInputContent(rs.getString("content"));
+                posts.add(post);
+            }
+            return posts;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
     }
 
     private Connection getConnection() {
@@ -97,6 +121,7 @@ public class JdbcPostRepository implements PostRepository {
             e.printStackTrace();
         }
     }
+
     private void close(Connection conn) throws SQLException {
         DataSourceUtils.releaseConnection(conn, dataSource);
     }
