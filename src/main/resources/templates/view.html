@@ -12,6 +12,15 @@
             padding: 8px;
             text-align: left;
         }
+
+        .button-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #eaa1a1;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -37,6 +46,9 @@
                 <td th:text="${post.inputTitle}"></td>
                 <td th:text="${post.inputContent}"></td>
             </tr>
+
+            <a href="update" class="button-link">등록</a>
+
             </tbody>
         </table>
     </div>
