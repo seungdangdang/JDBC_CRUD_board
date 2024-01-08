@@ -22,7 +22,7 @@ public class PostController {
 
         postService.join(post);
 
-        return "redirect:/";
+        return "redirect:/view";
     }
 //    @ResponseStatus(HttpStatus.OK)
 //    public String handlePostRequest(@RequestParam(name = "inputName") String name,
