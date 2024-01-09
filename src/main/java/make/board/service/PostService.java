@@ -26,7 +26,7 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public Optional<Post> findOne(Long postId) {
+    public Optional<Post> findPostById(Long postId) {
         return postRepository.findById(postId);
     }
 }
