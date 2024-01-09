@@ -116,6 +116,33 @@ public class JdbcPostRepository implements PostRepository {
         }
     }
 
+    @Override
+    public void delete(Long id) {
+        String sql = "delete from post where id = ?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, id);
+
+            // executeUpdate 메서드를 사용하여 DELETE 쿼리 실행
+            int rowsAffected = pstmt.executeUpdate();
+
+            // 삭제된 행이 있는지 확인 (rowsAffected가 1 이상이어야 함)
+            if (rowsAffected > 0) {
+                System.out.println("글이 삭제되었습니다. ID: " + id);
+            } else {
+                System.out.println("삭제할 글이 없습니다. ID: " + id);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(conn, pstmt, null);
+        }
+    }
+
     private Connection getConnection() {
         return DataSourceUtils.getConnection(dataSource);
     }
