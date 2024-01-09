@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>게시글 상세 페이지</title>
+    <style>
+        .container {
+            text-align: center;
+        }
+
+        table {
+            width: 60%;
+            margin: 20px auto;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        a.button-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #eaa1a1;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h3>게시글 상세 페이지</h3>
+    <table>
+        <tr>
+            <th>번호</th>
+            <th>작성자</th>
+            <th>제목</th>
+            <th>내용</th>
+        </tr>
+        <tr>
+            <td th:text="${post?.id}"></td>
+            <td th:text="${post?.inputName}"></td>
+            <td th:text="${post?.inputTitle}"></td>
+            <td th:text="${post?.inputContent}"></td>
+        </tr>
+    </table>
+    <!-- 목록으로 돌아가는 버튼 -->
+    <a href="/view" class="button-link">목록으로 돌아가기</a>
+</div>
+</body>
+</html>
