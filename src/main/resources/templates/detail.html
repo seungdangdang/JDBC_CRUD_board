@@ -47,6 +47,13 @@
     </table>
     <!-- 목록으로 돌아가는 버튼 -->
     <a href="/view" class="button-link">목록으로 돌아가기</a>
+
+    <!-- 유효한 Thymeleaf링크 (1) -->
+    <a th:href="@{/delete(postId=${post.id})}" class="button-link">삭제</a>
+
+    <!-- 유효한 Thymeleaf링크 (2) -->
+    <!--    <a th:href="@{/delete/{postId}(postId=${post.id})}" class="button-link">삭제</a>-->
+
 </div>
 </body>
 </html>
