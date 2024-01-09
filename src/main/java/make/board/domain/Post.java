@@ -1,6 +1,7 @@
 package make.board.domain;
 
 public class Post {
+    //TODO: 번호가 자동부여되니 중복되는 번호가 생겼음, 해결방안: 번호는 앞선 ID의 +1로 책정할 것
     private Long id;
     private String inputName;
     private String inputTitle;
