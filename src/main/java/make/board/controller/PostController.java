@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -46,4 +47,25 @@ public class PostController {
 
         return "detail";
     }
+
+//    유효한 delete매핑 (1)
+    @GetMapping("/delete")
+    public String deletePost(@RequestParam(name = "postId") Long postId) {
+        postService.delete(postId);
+        return "redirect:/view";
+    }
+
+//    유효한 delete매핑 (2)
+//    @GetMapping("/delete/{postId}")
+//    public String deletePost(@PathVariable(name = "postId") Long postId) {
+//        postService.delete(postId);
+//        return "redirect:/view";
+//    }
+
+//    잘못된매핑예시
+//    @GetMapping("/delete/{postId}")
+//    public String deletePost(@PathVariable Long postId) {
+//        postService.delete(postId);
+//        return "redirect:/view";
+//    }
 }
