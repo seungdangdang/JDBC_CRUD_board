@@ -64,7 +64,29 @@ public class JdbcPostRepository implements PostRepository {
 
     @Override
     public Optional<Post> findById(Long id) {
-        return Optional.empty();
+        String sql = "SELECT id, name, title, content FROM post WHERE id = ?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, id);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                Post post = new Post();
+                post.setId(rs.getLong("id"));
+                post.setInputName(rs.getString("name"));
+                post.setInputTitle(rs.getString("title"));
+                post.setInputContent(rs.getString("content"));
+                return Optional.of(post);
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
     }
 
     @Override
