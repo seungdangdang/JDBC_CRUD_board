@@ -41,7 +41,7 @@
             <tr th:each="post : ${posts}">
                 <td th:text="${post.id}"></td>
                 <td th:text="${post.inputName}"></td>
-                <td th:text="${post.inputTitle}"></td>
+                <td><a th:href="@{/detail(postId=${post.id})}" th:text="${post.inputTitle}"></a></td>
                 <td th:text="${post.inputContent}"></td>
             </tr>
             <a href="/" class="button-link">홈</a>
