@@ -12,4 +12,6 @@ public interface PostRepository {
     List<Post> findAll();
 
     void delete(Long id);
+
+    Optional<Post> modify(Long id);
 }
