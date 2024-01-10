@@ -143,6 +143,33 @@ public class JdbcPostRepository implements PostRepository {
         }
     }
 
+    @Override
+    public Optional<Post> modify(Long id, String newContent) {
+        String sql = "UPDATE post SET inputContent = ? WHERE id = ?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, newContent);
+            pstmt.setLong(2, id);
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("글이 수정되었습니다. ID: " + id);
+                return Optional.of(new Post()); // 수정된 레코드가 있다면 해당 레코드를 반환하도록 수정
+            } else {
+                System.out.println("수정할 글이 없습니다. ID: " + id);
+                return Optional.empty();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(conn, pstmt, null);
+        }
+    }
+
     private Connection getConnection() {
         return DataSourceUtils.getConnection(dataSource);
     }
