@@ -7,9 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class PostController {
@@ -21,13 +21,18 @@ public class PostController {
     }
 
     @PostMapping("/post/new")
-    public String create(@ModelAttribute Post post) {
-        // 로그용
-        System.out.println(post.getInputName() + post.getInputTitle() + post.getInputContent());
+    public String create(@ModelAttribute Post post, RedirectAttributes redirectAttributes) {
 
-        postService.join(post);
+        try {
+            // 로그용
+            System.out.println(post.getInputName() + post.getInputTitle() + post.getInputContent());
 
-        return "redirect:/view";
+            postService.join(post);
+            return "redirect:/view";
+        } catch (NullPointerException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "모두 입력하세요.");
+            return "redirect:/update";
+        }
     }
 //    @ResponseStatus(HttpStatus.OK)
 //    public String handlePostRequest(@RequestParam(name = "inputName") String name,
@@ -48,7 +53,7 @@ public class PostController {
         return "detail";
     }
 
-//    유효한 delete매핑 (1)
+    //    유효한 delete매핑 (1)
     @GetMapping("/delete")
     public String deletePost(@RequestParam(name = "postId") Long postId) {
         postService.delete(postId);
