@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import make.board.domain.Post;
 import make.board.repository.PostRepository;
+import org.springframework.beans.NullValueInNestedPathException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ public class PostService {
     }
 
     public Long join(Post post) {
+        validateJoin(post);
         postRepository.save(post);
         return post.getId();
     }
@@ -32,5 +34,11 @@ public class PostService {
 
     public void delete(Long postId) {
         postRepository.delete(postId);
+    }
+
+    private void validateJoin(Post post) {
+        if (post.getInputName().isEmpty() || post.getInputTitle().isEmpty() || post.getInputContent().isEmpty()) {
+            throw new NullPointerException("모두 입력하세요.");
+        }
     }
 }
