@@ -29,6 +29,9 @@
 </head>
 <body>
 <div class="container">
+
+    <p th:text="${errorMessage}" style="color: red;"></p>
+
     <form action="/post/new" method="post">
         <p th:text=" ${data}" ></p>
 
