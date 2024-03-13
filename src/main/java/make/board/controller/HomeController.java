@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class HomeController {
 
-    private PostService postService;
+    private final PostService postService;
 
     public HomeController(PostService postService) {
         this.postService = postService;
@@ -19,6 +19,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
+        postService.testDataGenerator();
         return "home";
     }
 
