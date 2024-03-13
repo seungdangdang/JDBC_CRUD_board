@@ -28,6 +28,14 @@ public class PostService {
         return postRepository.findAll();
     }
 
+    public List<Post> findPostsByPage(Long pageNumber) {
+        return postRepository.findPostsByPage(pageNumber);
+    }
+
+    public Long getTotalPages() {
+        return postRepository.getToTalPages();
+    }
+
     public Optional<Post> findPostById(Long postId) {
         return postRepository.findById(postId);
     }
