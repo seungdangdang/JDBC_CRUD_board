@@ -36,6 +36,7 @@ public class HomeController {
 
         model.addAttribute("pagePosts", pagedPosts);
         model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", page);
         return "view";
     }
 }
