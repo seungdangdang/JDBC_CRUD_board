@@ -6,6 +6,7 @@ import make.board.service.PostService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomeController {
@@ -28,9 +29,12 @@ public class HomeController {
     }
 
     @GetMapping("view")
-    public String view(Model model) {
-        List<Post> posts = postService.findPosts();
-        model.addAttribute("posts", posts);
+    public String view(Model model, @RequestParam(defaultValue = "1") Long page) {
+        List<Post> pagedPosts = postService.findPostsByPage(page);
+        Long totalPages = postService.getTotalPages();
+
+        model.addAttribute("pagePosts", pagedPosts);
+        model.addAttribute("totalPages", totalPages);
         return "view";
     }
 }
