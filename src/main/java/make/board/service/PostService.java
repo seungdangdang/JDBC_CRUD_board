@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import make.board.domain.Post;
 import make.board.repository.PostRepository;
-import org.springframework.beans.NullValueInNestedPathException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +25,10 @@ public class PostService {
 
     public List<Post> findPosts() {
         return postRepository.findAll();
+    }
+
+    public void testDataGenerator() {
+        postRepository.testDataGenerator();
     }
 
     public List<Post> findPostsByPage(Long pageNumber) {
