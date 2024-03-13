@@ -72,7 +72,7 @@
             <tr>
                 <td colspan="4">
                 <div class="page-links">
-                    <span th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
+                    <span th:if="${totalPages > 0}" th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
                         <a th:href="@{'/view?page=' + ${pageNumber}}" th:text="${pageNumber}">1</a>
                     </span>
                  </div>
