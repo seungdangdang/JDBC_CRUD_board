@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import javax.sql.DataSource;
 import make.board.domain.Post;
 import org.springframework.jdbc.datasource.DataSourceUtils;
@@ -19,6 +20,8 @@ public class JdbcPostRepository implements PostRepository {
     public JdbcPostRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
+
+    private static boolean generated = false;
 
     @Override
     public Post save(Post post) {
@@ -124,7 +127,7 @@ public class JdbcPostRepository implements PostRepository {
         if (totalPosts == 0) {
             return 0L;
         } else {
-            return (totalPosts-1) / pageSize + 1;
+            return (totalPosts - 1) / pageSize + 1;
         }
     }
 
@@ -164,7 +167,7 @@ public class JdbcPostRepository implements PostRepository {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, pageSize);
-            pstmt.setLong(2, (pageNumber-1) * pageSize);
+            pstmt.setLong(2, (pageNumber - 1) * pageSize);
             rs = pstmt.executeQuery();
             List<Post> posts = new ArrayList<>();
             while (rs.next()) {
@@ -267,5 +270,43 @@ public class JdbcPostRepository implements PostRepository {
 
     private void close(Connection conn) throws SQLException {
         DataSourceUtils.releaseConnection(conn, dataSource);
+    }
+
+    @Override
+    public void testDataGenerator() {
+        String sql = "INSERT INTO post (name, title, content, created_at) VALUES (?, ?, ?, ?)";
+        Connection conn = null;
+
+        if (!generated) {
+            try {
+                conn = getConnection();
+
+                int numPosts = 1000;
+
+                // 가짜 데이터 생성 및 삽입
+                Random random = new Random();
+                for (int i = 0; i < numPosts; i++) {
+                    String inputName = "User" + (i + 1);
+                    String inputTitle = "Title" + (i + 1);
+                    String inputContent = "Content" + (i + 1);
+                    // 현재 시간으로 설정
+                    long currentTime = System.currentTimeMillis();
+                    java.sql.Timestamp timestamp = new java.sql.Timestamp(currentTime);
+
+                    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                        pstmt.setString(1, inputName);
+                        pstmt.setString(2, inputTitle);
+                        pstmt.setString(3, inputContent);
+                        pstmt.setTimestamp(4, timestamp);
+                        pstmt.executeUpdate();
+                    }
+                }
+
+                System.out.println("가짜 데이터 생성 완료.");
+                generated = true;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }
