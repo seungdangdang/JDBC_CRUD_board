@@ -14,4 +14,10 @@ public interface PostRepository {
     void delete(Long id);
 
     Optional<Post> modify(Long id, String newContent);
+
+    List<Post> findPostsByPage(Long pageNumber);
+
+    Long getToTalPages();
+
+    Long countPosts();
 }
