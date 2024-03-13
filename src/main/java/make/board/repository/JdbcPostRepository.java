@@ -117,6 +117,73 @@ public class JdbcPostRepository implements PostRepository {
     }
 
     @Override
+    public Long getToTalPages() {
+        //TODO: pageSize 다른 곳에서 상수로 들고 있도록
+        int pageSize = 10;
+        long totalPosts = countPosts();
+        if (totalPosts == 0) {
+            return 0L;
+        } else {
+            return (totalPosts-1) / pageSize + 1;
+        }
+    }
+
+    @Override
+    public Long countPosts() {
+        long totalPosts = 0L;
+        String sql = "select COUNT(*) FROM post";
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            conn = getConnection();
+            preparedStatement = conn.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalPosts = resultSet.getLong(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(conn, preparedStatement, resultSet);
+        }
+        return totalPosts;
+    }
+
+    @Override
+    public List<Post> findPostsByPage(Long pageNumber) {
+        //TODO: pageSize 다른 곳에서 상수로 들고 있도록
+        int pageSize = 10;
+        String sql = "SELECT * FROM post ORDER BY created_at DESC LIMIT ? OFFSET ?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, pageSize);
+            pstmt.setLong(2, (pageNumber-1) * pageSize);
+            rs = pstmt.executeQuery();
+            List<Post> posts = new ArrayList<>();
+            while (rs.next()) {
+                Post post = new Post();
+                post.setId(rs.getLong("id"));
+                post.setInputName(rs.getString("name"));
+                post.setInputTitle(rs.getString("title"));
+                post.setInputContent(rs.getString("content"));
+                posts.add(post);
+            }
+            return posts;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
+    }
+
+    @Override
     public void delete(Long id) {
         String sql = "delete from post where id = ?";
         Connection conn = null;
@@ -127,7 +194,7 @@ public class JdbcPostRepository implements PostRepository {
             pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, id);
 
-            // executeUpdate 메서드를 사용하여 DELETE 쿼리 실행
+            // executeCreate 메서드를 사용하여 DELETE 쿼리 실행
             int rowsAffected = pstmt.executeUpdate();
 
             // 삭제된 행이 있는지 확인 (rowsAffected가 1 이상이어야 함)
