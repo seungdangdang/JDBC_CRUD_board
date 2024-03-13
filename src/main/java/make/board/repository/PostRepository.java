@@ -20,4 +20,6 @@ public interface PostRepository {
     Long getToTalPages();
 
     Long countPosts();
+
+    void testDataGenerator();
 }
