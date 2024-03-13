@@ -71,11 +71,22 @@
             <tfoot>
             <tr>
                 <td colspan="4">
-                <div class="page-links">
-                    <span th:if="${totalPages > 0}" th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
-                        <a th:href="@{'/view?page=' + ${pageNumber}}" th:text="${pageNumber}">1</a>
+                    <div class="page-links">
+                <span th:if="${totalPages > 1}">
+                    <a th:href="@{/view(page=${currentPage - 1})}" th:if="${currentPage > 1}" th:text="이전"></a>
+                    <span th:if="${currentPage <= 5}">
+                        <span th:each="pageNumber : ${#numbers.sequence(1, totalPages > 5 ? 10 : totalPages)}">
+                            <a th:href="@{'/view?page=' + ${pageNumber}}" th:text="${pageNumber}"></a>
+                        </span>
                     </span>
-                 </div>
+                    <span th:if="${currentPage > 5}">
+                        <span th:each="pageNumber : ${#numbers.sequence(currentPage - 5, totalPages > currentPage + 4 ? currentPage + 4 : totalPages)}">
+                            <a th:href="@{'/view?page=' + ${pageNumber}}" th:text="${pageNumber}"></a>
+                        </span>
+                    </span>
+                    <a th:href="@{/view(page=${currentPage + 1})}" th:if="${currentPage < totalPages}" th:text="다음"></a>
+                </span>
+                    </div>
                 </td>
             </tr>
             </tfoot>
