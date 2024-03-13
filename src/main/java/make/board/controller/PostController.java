@@ -31,7 +31,7 @@ public class PostController {
             return "redirect:/view";
         } catch (NullPointerException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "모두 입력하세요.");
-            return "redirect:/update";
+            return "redirect:/create";
         }
     }
 //    @ResponseStatus(HttpStatus.OK)
