@@ -25,7 +25,7 @@ public class JdbcPostRepository implements PostRepository {
 
     @Override
     public Post save(Post post) {
-        String sql = "INSERT INTO post(name, title, content) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO post(author, title, content) VALUES (?, ?, ?)";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -67,7 +67,7 @@ public class JdbcPostRepository implements PostRepository {
 
     @Override
     public Optional<Post> findById(Long id) {
-        String sql = "SELECT id, name, title, content FROM post WHERE id = ?";
+        String sql = "SELECT id, author, title, content FROM post WHERE postId = ?";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -78,8 +78,8 @@ public class JdbcPostRepository implements PostRepository {
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 Post post = new Post();
-                post.setId(rs.getLong("id"));
-                post.setInputName(rs.getString("name"));
+                post.setId(rs.getLong("postId"));
+                post.setInputName(rs.getString("author"));
                 post.setInputTitle(rs.getString("title"));
                 post.setInputContent(rs.getString("content"));
                 return Optional.of(post);
@@ -105,8 +105,8 @@ public class JdbcPostRepository implements PostRepository {
             List<Post> posts = new ArrayList<>();
             while (rs.next()) {
                 Post post = new Post();
-                post.setId(rs.getLong("id"));
-                post.setInputName(rs.getString("name"));
+                post.setId(rs.getLong("postId"));
+                post.setInputName(rs.getString("author"));
                 post.setInputTitle(rs.getString("title"));
                 post.setInputContent(rs.getString("content"));
                 posts.add(post);
@@ -159,7 +159,7 @@ public class JdbcPostRepository implements PostRepository {
     public List<Post> findPostsByPage(Long pageNumber) {
         //TODO: pageSize 다른 곳에서 상수로 들고 있도록
         int pageSize = 10;
-        String sql = "SELECT * FROM post ORDER BY created_at DESC LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM post ORDER BY createdAt DESC LIMIT ? OFFSET ?";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -172,8 +172,8 @@ public class JdbcPostRepository implements PostRepository {
             List<Post> posts = new ArrayList<>();
             while (rs.next()) {
                 Post post = new Post();
-                post.setId(rs.getLong("id"));
-                post.setInputName(rs.getString("name"));
+                post.setId(rs.getLong("postId"));
+                post.setInputName(rs.getString("author"));
                 post.setInputTitle(rs.getString("title"));
                 post.setInputContent(rs.getString("content"));
                 posts.add(post);
@@ -188,7 +188,7 @@ public class JdbcPostRepository implements PostRepository {
 
     @Override
     public void delete(Long id) {
-        String sql = "delete from post where id = ?";
+        String sql = "delete from post where postId = ?";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -215,7 +215,7 @@ public class JdbcPostRepository implements PostRepository {
 
     @Override
     public Optional<Post> modify(Long id, String newContent) {
-        String sql = "UPDATE post SET inputContent = ? WHERE id = ?";
+        String sql = "UPDATE post SET inputContent = ? WHERE postId = ?";
         Connection conn = null;
         PreparedStatement pstmt = null;
         try {
@@ -274,7 +274,7 @@ public class JdbcPostRepository implements PostRepository {
 
     @Override
     public void testDataGenerator() {
-        String sql = "INSERT INTO post (name, title, content, created_at) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO post (author, title, content, created_at) VALUES (?, ?, ?, ?)";
         Connection conn = null;
 
         if (!generated) {
