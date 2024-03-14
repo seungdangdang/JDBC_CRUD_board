@@ -274,7 +274,7 @@ public class JdbcPostRepository implements PostRepository {
 
     @Override
     public void testDataGenerator() {
-        String sql = "INSERT INTO post (author, title, content, created_at) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO post (author, title, content, createdAt) VALUES (?, ?, ?, ?)";
         Connection conn = null;
 
         if (!generated) {
