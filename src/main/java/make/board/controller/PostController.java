@@ -25,7 +25,7 @@ public class PostController {
 
         try {
             // 로그용
-            System.out.println(post.getInputName() + post.getInputTitle() + post.getInputContent());
+            System.out.println(post.getAuthor() + post.getTitle() + post.getContent());
 
             postService.join(post);
             return "redirect:/view";

@@ -39,17 +39,17 @@
             <th>내용</th>
         </tr>
         <tr>
-            <td th:text="${post?.id}"></td>
-            <td th:text="${post?.inputName}"></td>
-            <td th:text="${post?.inputTitle}"></td>
-            <td th:text="${post?.inputContent}"></td>
+            <td th:text="${post?.postId}"></td>
+            <td th:text="${post?.author}"></td>
+            <td th:text="${post?.title}"></td>
+            <td th:text="${post?.content}"></td>
         </tr>
     </table>
     <!-- 목록으로 돌아가는 버튼 -->
     <a href="/view" class="button-link">목록으로 돌아가기</a>
 
     <!-- 유효한 Thymeleaf링크 (1) -->
-    <a th:href="@{/delete(postId=${post.id})}" class="button-link">삭제</a>
+    <a th:href="@{/delete(postId=${post.postId})}" class="button-link">삭제</a>
 
     <!-- 유효한 Thymeleaf링크 (2) -->
     <!--    <a th:href="@{/delete/{postId}(postId=${post.id})}" class="button-link">삭제</a>-->

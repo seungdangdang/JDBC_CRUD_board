@@ -20,7 +20,7 @@ public class PostService {
     public Long join(Post post) {
         validateJoin(post);
         postRepository.save(post);
-        return post.getId();
+        return post.getPostId();
     }
 
     public List<Post> findPosts() {
@@ -48,7 +48,7 @@ public class PostService {
     }
 
     private void validateJoin(Post post) {
-        if (post.getInputName().isEmpty() || post.getInputTitle().isEmpty() || post.getInputContent().isEmpty()) {
+        if (post.getAuthor().isEmpty() || post.getTitle().isEmpty() || post.getContent().isEmpty()) {
             throw new NullPointerException("모두 입력하세요.");
         }
     }

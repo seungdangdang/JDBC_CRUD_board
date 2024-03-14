@@ -36,9 +36,9 @@ public class JdbcPostRepository implements PostRepository {
             pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             // PreparedStatement에 파라미터 설정
-            pstmt.setString(1, post.getInputName());
-            pstmt.setString(2, post.getInputTitle());
-            pstmt.setString(3, post.getInputContent());
+            pstmt.setString(1, post.getAuthor());
+            pstmt.setString(2, post.getTitle());
+            pstmt.setString(3, post.getContent());
 
             // SQL 문 실행하여 데이터베이스에 게시물 정보 삽입
             pstmt.executeUpdate();
@@ -48,7 +48,7 @@ public class JdbcPostRepository implements PostRepository {
 
             // 조회된 결과가 있으면 해당 값을 게시물 객체에 설정
             if (rs.next()) {
-                post.setId(rs.getLong(1));
+                post.setPostId(rs.getLong(1));
             } else {
                 // 조회된 결과가 없을 경우 예외 처리
                 throw new SQLException("id 조회 실패");
@@ -67,7 +67,7 @@ public class JdbcPostRepository implements PostRepository {
 
     @Override
     public Optional<Post> findById(Long id) {
-        String sql = "SELECT id, author, title, content FROM post WHERE postId = ?";
+        String sql = "SELECT postId, author, title, content FROM post WHERE postId = ?";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -78,10 +78,10 @@ public class JdbcPostRepository implements PostRepository {
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 Post post = new Post();
-                post.setId(rs.getLong("postId"));
-                post.setInputName(rs.getString("author"));
-                post.setInputTitle(rs.getString("title"));
-                post.setInputContent(rs.getString("content"));
+                post.setPostId(rs.getLong("postId"));
+                post.setAuthor(rs.getString("author"));
+                post.setTitle(rs.getString("title"));
+                post.setContent(rs.getString("content"));
                 return Optional.of(post);
             }
             return Optional.empty();
@@ -105,10 +105,10 @@ public class JdbcPostRepository implements PostRepository {
             List<Post> posts = new ArrayList<>();
             while (rs.next()) {
                 Post post = new Post();
-                post.setId(rs.getLong("postId"));
-                post.setInputName(rs.getString("author"));
-                post.setInputTitle(rs.getString("title"));
-                post.setInputContent(rs.getString("content"));
+                post.setPostId(rs.getLong("postId"));
+                post.setAuthor(rs.getString("author"));
+                post.setTitle(rs.getString("title"));
+                post.setContent(rs.getString("content"));
                 posts.add(post);
             }
             return posts;
@@ -172,10 +172,10 @@ public class JdbcPostRepository implements PostRepository {
             List<Post> posts = new ArrayList<>();
             while (rs.next()) {
                 Post post = new Post();
-                post.setId(rs.getLong("postId"));
-                post.setInputName(rs.getString("author"));
-                post.setInputTitle(rs.getString("title"));
-                post.setInputContent(rs.getString("content"));
+                post.setPostId(rs.getLong("postId"));
+                post.setAuthor(rs.getString("author"));
+                post.setTitle(rs.getString("title"));
+                post.setContent(rs.getString("content"));
                 posts.add(post);
             }
             return posts;

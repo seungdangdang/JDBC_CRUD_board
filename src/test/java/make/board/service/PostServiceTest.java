@@ -23,9 +23,9 @@ class PostServiceTest {
     @Test
     void join() {
         Post post = new Post();
-        post.setInputName("홍길동");
-        post.setInputTitle("홍길동전");
-        post.setInputContent("옛날옛적에");
+        post.setAuthor("홍길동");
+        post.setTitle("홍길동전");
+        post.setContent("옛날옛적에");
 
         Long id = postService.join(post);
 
@@ -35,9 +35,9 @@ class PostServiceTest {
         Post actualPost = findPost.orElseThrow(() -> new AssertionError("게시물을 찾을 수 없습니다."));
 
         // 테스트 검증
-        assertThat(actualPost.getInputName()).isEqualTo("홍길동");
-        assertThat(actualPost.getInputTitle()).isEqualTo("홍길동전");
-        assertThat(actualPost.getInputContent()).isNotEqualTo("옛날옛적에말입니다");
+        assertThat(actualPost.getAuthor()).isEqualTo("홍길동");
+        assertThat(actualPost.getTitle()).isEqualTo("홍길동전");
+        assertThat(actualPost.getContent()).isNotEqualTo("옛날옛적에말입니다");
     }
 
     @Test
@@ -47,9 +47,9 @@ class PostServiceTest {
     @Test
     void delete() {
         Post post = new Post();
-        post.setInputName("홍길동");
-        post.setInputTitle("홍길동전");
-        post.setInputContent("옛날옛적에");
+        post.setAuthor("홍길동");
+        post.setTitle("홍길동전");
+        post.setContent("옛날옛적에");
 
         Long id = postService.join(post);
 
@@ -59,9 +59,9 @@ class PostServiceTest {
         Post actualPost = findPost.orElseThrow(() -> new AssertionError("게시물을 찾을 수 없습니다."));
 
         // 테스트 검증
-        assertThat(actualPost.getInputName()).isEqualTo("홍길동");
-        assertThat(actualPost.getInputTitle()).isEqualTo("홍길동전");
-        assertThat(actualPost.getInputContent()).isNotEqualTo("옛날옛적에말입니다");
+        assertThat(actualPost.getAuthor()).isEqualTo("홍길동");
+        assertThat(actualPost.getTitle()).isEqualTo("홍길동전");
+        assertThat(actualPost.getContent()).isNotEqualTo("옛날옛적에말입니다");
 
         postService.delete(id);
 

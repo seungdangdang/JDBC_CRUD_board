@@ -2,40 +2,40 @@ package make.board.domain;
 
 public class Post {
     //TODO: 번호가 자동부여되니 중복되는 번호가 생겼음, 해결방안: 번호는 앞선 ID의 +1로 책정할 것
-    private Long id;
-    private String inputName;
-    private String inputTitle;
-    private String inputContent;
+    private Long postId;
+    private String author;
+    private String title;
+    private String content;
 
-    public Long getId() {
-        return id;
+    public Long getPostId() {
+        return postId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPostId(Long postId) {
+        this.postId = postId;
     }
 
-    public String getInputName() {
-        return inputName;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setInputName(String inputName) {
-        this.inputName = inputName;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public String getInputTitle() {
-        return inputTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setInputTitle(String inputTitle) {
-        this.inputTitle = inputTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getInputContent() {
-        return inputContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setInputContent(String inputContent) {
-        this.inputContent = inputContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 }

@@ -59,11 +59,11 @@
             </thead>
             <tbody>
             <tr th:each="post : ${pagePosts}">
-                <td th:text="${(post.id - 1) / 10 + 1}"></td>
-                <td th:text="${post.id}"></td>
-                <td th:text="${post.inputName}"></td>
-                <td><a th:href="@{/detail(postId=${post.id})}" th:text="${post.inputTitle}"></a></td>
-                <td th:text="${post.inputContent}"></td>
+                <td th:text="${(post.postId - 1) / 10 + 1}"></td>
+                <td th:text="${post.postId}"></td>
+                <td th:text="${post.author}"></td>
+                <td><a th:href="@{/detail(postId=${post.postId})}" th:text="${post.title}"></a></td>
+                <td th:text="${post.content}"></td>
             </tr>
             <a class="button-link" href="/">홈</a>
             <a class="button-link" href="create">등록</a>
