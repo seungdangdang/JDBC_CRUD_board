@@ -11,19 +11,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserCreateFormValidator userCreateFormValidator;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserCreateFormValidator userCreateFormValidator) {
         this.userRepository = userRepository;
+        this.userCreateFormValidator = userCreateFormValidator;
     }
 
-    public SiteUser create(String userName, String email, String password) {
-        SiteUser user = new SiteUser();
-        user.setUserName(userName);
-        user.setEmail(email);
-        user.setPassWord(encryptPassword(password));
-        this.userRepository.create(user);
-        return user;
+    public void create(SiteUser siteUser) {
+        userCreateFormValidator.validate(siteUser);
+        siteUser.setPassword(encryptPassword(siteUser.getPassword()));
+        userRepository.create(siteUser);
     }
 
     //TODO: encryptPassword 메서드 적절한 곳으로 이동시키기
