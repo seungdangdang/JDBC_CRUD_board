@@ -1,4 +1,4 @@
-package make.board.repository;
+package make.board.post.repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import javax.sql.DataSource;
-import make.board.domain.Post;
+import make.board.post.domain.Post;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 public class JdbcPostRepository implements PostRepository {

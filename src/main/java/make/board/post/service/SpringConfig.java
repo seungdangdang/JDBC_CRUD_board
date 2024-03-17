@@ -1,8 +1,8 @@
-package make.board.service;
+package make.board.post.service;
 
 import javax.sql.DataSource;
-import make.board.repository.JdbcPostRepository;
-import make.board.repository.PostRepository;
+import make.board.post.repository.JdbcPostRepository;
+import make.board.post.repository.PostRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

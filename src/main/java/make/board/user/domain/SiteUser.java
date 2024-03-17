@@ -1,4 +1,4 @@
-package make.board.user;
+package make.board.user.domain;
 
 public class SiteUser {
 

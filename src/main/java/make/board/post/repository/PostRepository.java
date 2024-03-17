@@ -1,8 +1,8 @@
-package make.board.repository;
+package make.board.post.repository;
 
 import java.util.List;
 import java.util.Optional;
-import make.board.domain.Post;
+import make.board.post.domain.Post;
 
 public interface PostRepository {
     Post save(Post post);

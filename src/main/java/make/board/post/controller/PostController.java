@@ -1,8 +1,8 @@
-package make.board.controller;
+package make.board.post.controller;
 
 import java.util.Optional;
-import make.board.domain.Post;
-import make.board.service.PostService;
+import make.board.post.domain.Post;
+import make.board.post.service.PostService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
