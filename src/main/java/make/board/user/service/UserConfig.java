@@ -28,6 +28,6 @@ public class UserConfig {
 
     @Bean
     public UserCreateFormValidator userCreateFormValidator() {
-        return new UserCreateFormValidator();
+        return new UserCreateFormValidator(userRepository());
     }
 }
