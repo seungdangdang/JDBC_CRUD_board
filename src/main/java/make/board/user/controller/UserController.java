@@ -36,7 +36,7 @@ public class UserController {
             return "redirect:/";
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/signup";
+            return "redirect:signup";
         }
     }
 }
