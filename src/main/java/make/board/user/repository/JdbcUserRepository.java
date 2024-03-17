@@ -51,6 +51,31 @@ public class JdbcUserRepository implements UserRepository {
         }
     }
 
+    public boolean existsByUsername(String username) {
+        String sql = "SELECT COUNT(*) FROM siteuser WHERE username = ?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, username);
+            try {
+                rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+                    return count > 0;
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
     private Connection getConnection() {
         return DataSourceUtils.getConnection(dataSource);
     }
