@@ -3,8 +3,9 @@ package make.board.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Optional;
-import make.board.domain.Post;
-import make.board.repository.PostRepository;
+import make.board.post.domain.Post;
+import make.board.post.repository.PostRepository;
+import make.board.post.service.PostService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
