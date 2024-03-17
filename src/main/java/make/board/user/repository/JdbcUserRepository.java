@@ -53,9 +53,9 @@ public class JdbcUserRepository implements UserRepository {
 
     public boolean existsByUsername(String username) {
         String sql = "SELECT COUNT(*) FROM siteuser WHERE username = ?";
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+        Connection conn;
+        PreparedStatement pstmt;
+        ResultSet rs;
 
         try {
             conn = getConnection();
