@@ -17,17 +17,7 @@ public class UserConfig {
     }
 
     @Bean
-    public UserService userService() {
-        return new UserService(userRepository(), userCreateFormValidator());
-    }
-
-    @Bean
     public UserRepository userRepository() {
         return new JdbcUserRepository(dataSource);
-    }
-
-    @Bean
-    public UserCreateFormValidator userCreateFormValidator() {
-        return new UserCreateFormValidator(userRepository());
     }
 }
