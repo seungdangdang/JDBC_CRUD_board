@@ -18,7 +18,7 @@ public class JdbcUserRepository implements UserRepository {
     }
 
     @Override
-    public SiteUser create(SiteUser siteUser) {
+    public SiteUser save(SiteUser siteUser) {
         String sql = "INSERT INTO siteUser(username, password, email) VALUES (?, ?, ?)";
 
         Connection conn = null;
@@ -61,6 +61,31 @@ public class JdbcUserRepository implements UserRepository {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, username);
+            try {
+                rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+                    return count > 0;
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
+    public boolean existsByEmail(String email) {
+        String sql = "SELECT COUNT(*) FROM siteuser WHERE email = ?";
+        Connection conn;
+        PreparedStatement pstmt;
+        ResultSet rs;
+
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, email);
             try {
                 rs = pstmt.executeQuery();
                 if (rs.next()) {
