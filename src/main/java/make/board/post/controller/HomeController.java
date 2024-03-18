@@ -19,8 +19,13 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        postService.testDataGenerator();
         return "home";
+    }
+
+    @GetMapping("/dummy_create")
+    public String dummyCreate() {
+        postService.testDataGenerator();
+        return "redirect:/";
     }
 
     @GetMapping("create")
