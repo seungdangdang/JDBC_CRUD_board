@@ -1,15 +1,10 @@
 package make.board.user.service;
 
 import make.board.user.domain.SiteUser;
-import make.board.user.repository.UserRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserCreateFormValidator {
-
-    private final UserRepository userRepository;
-
-    public UserCreateFormValidator(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     public void validate(SiteUser user) {
         if (user.getUsername() == null || user.getUsername().length() < 2 || user.getUsername().length() > 25) {
@@ -26,10 +21,6 @@ public class UserCreateFormValidator {
 
         if (!isValidEmail(user.getEmail())) {
             throw new IllegalArgumentException("올바른 이메일 형식이 아닙니다.");
-        }
-
-        if (userRepository.existsByUsername(user.getUsername())) {
-            throw new IllegalArgumentException("이미 사용 중인 이름입니다.");
         }
     }
 
