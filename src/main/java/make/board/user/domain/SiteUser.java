@@ -43,8 +43,8 @@ public class SiteUser {
     public String toString() {
         return "SiteUser{" +
                 "id=" + id +
-                ", userName='" + username + '\'' +
-                ", passWord='" + password + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }
