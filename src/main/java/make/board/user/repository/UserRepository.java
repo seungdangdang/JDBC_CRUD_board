@@ -4,7 +4,7 @@ import make.board.user.domain.SiteUser;
 
 public interface UserRepository {
 
-    SiteUser create(SiteUser siteUser);
-
+    SiteUser save(SiteUser siteUser);
     boolean existsByUsername(String name);
+    boolean existsByEmail(String email);
 }
