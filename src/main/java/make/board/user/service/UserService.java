@@ -1,10 +1,9 @@
 package make.board.user.service;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import make.board.user.domain.SiteUser;
 import make.board.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,22 +29,8 @@ public class UserService {
             throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         }
 
-        siteUser.setPassword(encryptPassword(siteUser.getPassword()));
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        siteUser.setPassword(passwordEncoder.encode(siteUser.getPassword()));
         userRepository.save(siteUser);
-    }
-
-    //TODO: encryptPassword 메서드 적절한 곳으로 이동시키기
-    private String encryptPassword(String password) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hashedBytes = md.digest(password.getBytes());
-            StringBuilder sb = new StringBuilder();
-            for (byte b : hashedBytes) {
-                sb.append(String.format("%02x", b));
-            }
-            return sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
