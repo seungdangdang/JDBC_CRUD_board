@@ -5,9 +5,11 @@ import java.security.NoSuchAlgorithmException;
 import make.board.user.domain.SiteUser;
 import make.board.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
+
+@Service
 public class UserService {
 
     private final UserRepository userRepository;
@@ -19,10 +21,17 @@ public class UserService {
         this.userCreateFormValidator = userCreateFormValidator;
     }
 
+    @Transactional
     public void create(SiteUser siteUser) {
-        userCreateFormValidator.validate(siteUser);
+        if (userRepository.existsByUsername(siteUser.getUsername())) {
+            throw new IllegalArgumentException("이미 사용 중인 이름입니다.");
+        }
+        if (userRepository.existsByEmail(siteUser.getEmail())) {
+            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
+        }
+
         siteUser.setPassword(encryptPassword(siteUser.getPassword()));
-        userRepository.create(siteUser);
+        userRepository.save(siteUser);
     }
 
     //TODO: encryptPassword 메서드 적절한 곳으로 이동시키기
