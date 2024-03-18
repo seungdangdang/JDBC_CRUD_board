@@ -21,8 +21,6 @@ public class JdbcPostRepository implements PostRepository {
         this.dataSource = dataSource;
     }
 
-    private static boolean generated = false;
-
     @Override
     public Post save(Post post) {
         String sql = "INSERT INTO post(author, title, content) VALUES (?, ?, ?)";
@@ -277,36 +275,34 @@ public class JdbcPostRepository implements PostRepository {
         String sql = "INSERT INTO post (author, title, content, createdAt) VALUES (?, ?, ?, ?)";
         Connection conn = null;
 
-        if (!generated) {
-            try {
-                conn = getConnection();
+        try {
+            conn = getConnection();
 
-                int numPosts = 1000;
+            int numPosts = 1000;
 
-                // 가짜 데이터 생성 및 삽입
-                Random random = new Random();
-                for (int i = 0; i < numPosts; i++) {
-                    String inputName = "User" + (i + 1);
-                    String inputTitle = "Title" + (i + 1);
-                    String inputContent = "Content" + (i + 1);
-                    // 현재 시간으로 설정
-                    long currentTime = System.currentTimeMillis();
-                    java.sql.Timestamp timestamp = new java.sql.Timestamp(currentTime);
+            // 가짜 데이터 생성 및 삽입
+            Random random = new Random();
+            for (int i = 0; i < numPosts; i++) {
+                String inputName = "User" + (i + 1);
+                String inputTitle = "Title" + (i + 1);
+                String inputContent = "Content" + (i + 1);
+                // 현재 시간으로 설정
+                long currentTime = System.currentTimeMillis();
+                java.sql.Timestamp timestamp = new java.sql.Timestamp(currentTime);
 
-                    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                        pstmt.setString(1, inputName);
-                        pstmt.setString(2, inputTitle);
-                        pstmt.setString(3, inputContent);
-                        pstmt.setTimestamp(4, timestamp);
-                        pstmt.executeUpdate();
-                    }
+                try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                    pstmt.setString(1, inputName);
+                    pstmt.setString(2, inputTitle);
+                    pstmt.setString(3, inputContent);
+                    pstmt.setTimestamp(4, timestamp);
+                    pstmt.executeUpdate();
                 }
-
-                System.out.println("가짜 데이터 생성 완료.");
-                generated = true;
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
             }
+
+            System.out.println("가짜 데이터 생성 완료.");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
+}
 }
