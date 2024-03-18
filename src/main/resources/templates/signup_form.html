@@ -32,22 +32,42 @@
 
   <p th:text="${errorMessage}" style="color: red;"></p>
 
+<!-- TODO: 회원가입 형식에 맞지 않아서 실패하는 경우에도 입력 값을 유지하기 -->
   <form action="/user/signup" method="post">
     <p th:text=" ${data}" ></p>
 
     <div class="form-group">
-      <label for="username">이름</label>
-      <input type="text" id="username" name="username" placeholder="이름을 입력하세요">
+      <label for="username">닉네임</label>
+      <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="이름을 입력하세요"
+              th:value="${siteUser.getUsername()}"
+      />
     </div>
     <div class="form-group">
       <label for="password">비밀번호</label>
-      <input type="text" id="password" name="password" placeholder="비밀번호를 입력하세요">
+      <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="비밀번호를 입력하세요"
+              th:value="${siteUser.getPassword()}"
+      />
     </div>
     <div class="form-group">
       <label for="email">이메일</label>
-      <textarea id="email" name="email" placeholder="이메일을 입력하세요"></textarea>
+      <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="이메일을 입력하세요"
+              th:value="${siteUser.getEmail()}"
+      />
     </div>
-    <button type="submit">등록</button>
+    <button type="submit" >등록</button>
+    <button type="reset">초기화</button>
   </form>
 </div>
 </body>
