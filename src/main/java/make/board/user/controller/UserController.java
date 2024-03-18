@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signup(@ModelAttribute SiteUser siteUser, RedirectAttributes redirectAttributes, Model model) {
+    public String signup(@ModelAttribute SiteUser siteUser, Model model) {
         try {
             // 로그용
             System.out.println(siteUser.toString());
@@ -44,5 +44,10 @@ public class UserController {
             model.addAttribute("siteUser", siteUser);
             return "signup_form";
         }
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login_form";
     }
 }
