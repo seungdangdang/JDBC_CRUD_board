@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 import javax.sql.DataSource;
 import make.board.user.domain.SiteUser;
 import org.springframework.jdbc.datasource.DataSourceUtils;
@@ -99,6 +100,35 @@ public class JdbcUserRepository implements UserRepository {
             throw new RuntimeException(e);
         }
         return false;
+    }
+
+    @Override
+    public Optional<SiteUser> findByUsername(String username) {
+        String sql = "SELECT username, password, email FROM siteuser WHERE username = ?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, username);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                SiteUser user = new SiteUser();
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password")); // 암호화된 비밀번호를 저장할 필드
+                user.setEmail(rs.getString("email"));
+                return Optional.of(user);
+            } else {
+                return Optional.empty();
+            }
+        } catch(SQLException e){
+            throw new RuntimeException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
     }
 
     private Connection getConnection() {
