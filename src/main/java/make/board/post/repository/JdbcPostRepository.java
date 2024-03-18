@@ -305,4 +305,3 @@ public class JdbcPostRepository implements PostRepository {
         }
     }
 }
-}
