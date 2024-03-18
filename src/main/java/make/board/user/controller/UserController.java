@@ -1,6 +1,7 @@
 package make.board.user.controller;
 
 import make.board.user.domain.SiteUser;
+import make.board.user.service.UserCreateFormValidator;
 import make.board.user.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,28 +16,33 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UserController {
 
     private final UserService userService;
+    private final UserCreateFormValidator validator;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserCreateFormValidator validator) {
         this.userService = userService;
+        this.validator = validator;
     }
 
     @GetMapping("/signup")
     public String signup(Model model) {
         model.addAttribute("data", "회원가입 하기");
+        model.addAttribute("siteUser", new SiteUser());
         return "signup_form";
     }
 
     @PostMapping("/signup")
-    public String signup(@ModelAttribute SiteUser siteUser, RedirectAttributes redirectAttributes) {
+    public String signup(@ModelAttribute SiteUser siteUser, RedirectAttributes redirectAttributes, Model model) {
         try {
             // 로그용
             System.out.println(siteUser.toString());
 
+            validator.validate(siteUser);
             userService.create(siteUser);
             return "redirect:/";
         } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:signup";
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("siteUser", siteUser);
+            return "signup_form";
         }
     }
 }
