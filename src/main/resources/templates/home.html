@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>기본페이지</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -11,6 +12,7 @@
 <a href="/delete"> 글 삭제하기 </a> <br>
 <a href="/user/signup"> 회원가입 </a> <br>
 <a href="/dummy_create"> 가짜데이터 1000개 생성하기 </a> <br>
-<a href="/user/login"> 로그인 하기</a>
+<a sec:authorize ="isAnonymous()" th:href="@{/user/login}">로그인</a>
+<a sec:authorize ="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
 </body>
 </html>
