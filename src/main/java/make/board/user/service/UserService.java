@@ -12,12 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final UserCreateFormValidator userCreateFormValidator;
 
     @Autowired
     public UserService(UserRepository userRepository, UserCreateFormValidator userCreateFormValidator) {
         this.userRepository = userRepository;
-        this.userCreateFormValidator = userCreateFormValidator;
     }
 
     @Transactional
