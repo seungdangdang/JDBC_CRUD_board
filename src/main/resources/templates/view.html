@@ -70,7 +70,7 @@
             </tbody>
         </table>
     </div>
-    <div class="page-links">
+    <div class="page-links" style="padding-top: 6px; padding-bottom: 6px;">
         <span th:if="${totalPages > 1}">
             <a th:href="@{/view(page=${currentPage - 10})}" th:if="${currentPage > 10}" th:text="이전"></a>
             <span th:each="pageNumber : ${#numbers.sequence((currentPage - 1) / 10 * 10 + 1, ((currentPage - 1) / 10 * 10 + 10 > totalPages ? totalPages : (currentPage - 1) / 10 * 10 + 10))}">
