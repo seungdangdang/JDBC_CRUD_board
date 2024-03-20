@@ -22,7 +22,6 @@ public class PostController {
 
     @PostMapping("/post/new")
     public String create(@ModelAttribute Post post, RedirectAttributes redirectAttributes) {
-
         try {
             // 로그용
             System.out.println(post.getAuthor() + post.getTitle() + post.getContent());
