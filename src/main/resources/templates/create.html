@@ -30,11 +30,9 @@
 <body>
 <div class="container">
 
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-
     <p th:text="${errorMessage}" style="color: red;"></p>
 
-    <form action="/post/new" method="post">
+    <form action="/post/new" method="post" >
         <p th:text=" ${data}" ></p>
 
         <div class="form-group">
