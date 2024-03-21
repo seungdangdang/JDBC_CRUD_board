@@ -5,12 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import javax.sql.DataSource;
 import make.board.post.domain.Post;
+import make.board.user.domain.SiteUser;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 public class JdbcPostRepository implements PostRepository {
@@ -22,8 +24,8 @@ public class JdbcPostRepository implements PostRepository {
     }
 
     @Override
-    public Post save(Post post) {
-        String sql = "INSERT INTO post(author, title, content) VALUES (?, ?, ?)";
+    public Post save(Post post, SiteUser siteUser) {
+        String sql = "INSERT INTO post(author_id, author, title, content) VALUES (?, ?, ?, ?)";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -33,10 +35,14 @@ public class JdbcPostRepository implements PostRepository {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            // PreparedStatement에 파라미터 설정
-            pstmt.setString(1, post.getAuthor());
-            pstmt.setString(2, post.getTitle());
-            pstmt.setString(3, post.getContent());
+            if (siteUser != null) {
+                pstmt.setLong(1, siteUser.getId());
+            } else {
+                pstmt.setNull(1, Types.NULL);
+            }
+            pstmt.setString(2, post.getAuthor());
+            pstmt.setString(3, post.getTitle());
+            pstmt.setString(4, post.getContent());
 
             // SQL 문 실행하여 데이터베이스에 게시물 정보 삽입
             pstmt.executeUpdate();
