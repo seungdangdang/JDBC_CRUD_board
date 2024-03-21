@@ -50,7 +50,6 @@
         <table>
             <thead>
             <tr>
-                <th>페이지 번호</th>
                 <th>번호</th>
                 <th>작성자</th>
                 <th>제목</th>
@@ -59,7 +58,6 @@
             </thead>
             <tbody>
             <tr th:each="post : ${pagePosts}">
-                <td th:text="${(post.postId - 1) / 10 + 1}"></td>
                 <td th:text="${post.postId}"></td>
                 <td th:text="${post.author}"></td>
                 <td><a th:href="@{/detail(postId=${post.postId})}" th:text="${post.title}"></a></td>
