@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import make.board.post.domain.Post;
 import make.board.post.repository.PostRepository;
+import make.board.user.domain.SiteUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +18,9 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public Long join(Post post) {
+    public Long join(Post post, SiteUser siteUser) {
         validateJoin(post);
-        postRepository.save(post);
+        postRepository.save(post, siteUser);
         return post.getPostId();
     }
 
@@ -48,7 +49,7 @@ public class PostService {
     }
 
     private void validateJoin(Post post) {
-        if (post.getAuthor().isEmpty() || post.getTitle().isEmpty() || post.getContent().isEmpty()) {
+        if (post.getTitle().isEmpty() || post.getContent().isEmpty()) {
             throw new NullPointerException("모두 입력하세요.");
         }
     }
