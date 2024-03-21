@@ -1,5 +1,6 @@
 package make.board.user.service;
 
+import java.util.Optional;
 import make.board.user.domain.SiteUser;
 import make.board.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,9 @@ public class UserService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         siteUser.setPassword(passwordEncoder.encode(siteUser.getPassword()));
         userRepository.save(siteUser);
+    }
+
+    public Optional<SiteUser> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }
