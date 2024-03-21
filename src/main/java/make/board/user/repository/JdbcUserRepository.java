@@ -104,7 +104,7 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public Optional<SiteUser> findByUsername(String username) {
-        String sql = "SELECT username, password, email FROM siteuser WHERE username = ?";
+        String sql = "SELECT id, username, password, email FROM siteuser WHERE username = ?";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -117,6 +117,7 @@ public class JdbcUserRepository implements UserRepository {
 
             if (rs.next()) {
                 SiteUser user = new SiteUser();
+                user.setId(rs.getLong("id"));
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password")); // 암호화된 비밀번호를 저장할 필드
                 user.setEmail(rs.getString("email"));
