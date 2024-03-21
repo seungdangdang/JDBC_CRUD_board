@@ -1,8 +1,11 @@
 package make.board.post.controller;
 
+import java.security.Principal;
 import java.util.Optional;
 import make.board.post.domain.Post;
 import make.board.post.service.PostService;
+import make.board.user.domain.SiteUser;
+import make.board.user.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,19 +18,27 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class PostController {
 
     private PostService postService;
+    private UserService userService;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, UserService userService) {
         this.postService = postService;
+        this.userService = userService;
     }
 
     @PostMapping("/post/new")
-    public String create(@ModelAttribute Post post, RedirectAttributes redirectAttributes) {
+    public String create(@ModelAttribute Post post, RedirectAttributes redirectAttributes, Principal principal) {
         try {
-            // 로그용
-            System.out.println(post.getAuthor() + post.getTitle() + post.getContent());
-
-            postService.join(post);
-            return "redirect:/view";
+            Optional<SiteUser> siteuserOptional = this.userService.findByUsername(principal.getName());
+            if (siteuserOptional.isPresent()) {
+                SiteUser siteUser = siteuserOptional.get();
+                // 로그용
+                System.out.println(post.getAuthor() + post.getTitle() + post.getContent());
+                postService.join(post, siteUser);
+                return "redirect:/view";
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage", "사용자를 찾을 수 없습니다.");
+                return "redirect:/create";
+            }
         } catch (NullPointerException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "모두 입력하세요.");
             return "redirect:/create";
