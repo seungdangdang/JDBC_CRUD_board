@@ -40,7 +40,9 @@ public class JdbcPostRepository implements PostRepository {
             } else {
                 pstmt.setNull(1, Types.NULL);
             }
-            pstmt.setString(2, post.getAuthor());
+            if (siteUser != null) {
+                pstmt.setString(2, siteUser.getUsername());
+            }
             pstmt.setString(3, post.getTitle());
             pstmt.setString(4, post.getContent());
 
