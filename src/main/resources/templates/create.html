@@ -4,10 +4,19 @@
     <style>
         .container {
             text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
         form {
-            width: 400px;
+            width: 800px;
             margin: 0 auto;
         }
 
@@ -19,26 +28,48 @@
         label {
             display: inline-block;
             width: 120px;
+            font-weight: bold;
         }
 
         input[type="text"],
         textarea {
             width: calc(100% - 130px);
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button[type="submit"],
+        button[type="button"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover,
+        button[type="button"]:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
         }
     </style>
 </head>
 <body>
 <div class="container">
+    <h1>게시글 등록하기</h1>
 
-    <p th:text="${errorMessage}" style="color: red;"></p>
+    <p th:text="${errorMessage}" class="error-message"></p>
 
     <form action="/post/new" method="post" >
-        <p th:text=" ${data}" ></p>
 
-        <div class="form-group">
-            <label for="author">이름</label>
-            <input type="text" id="author" name="author" placeholder="이름을 입력하세요">
-        </div>
+        <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+
         <div class="form-group">
             <label for="title">제목</label>
             <input type="text" id="title" name="title" placeholder="제목을 입력하세요">
@@ -48,6 +79,7 @@
             <textarea id="content" name="content" placeholder="내용을 입력하세요" th:rows="10"></textarea>
         </div>
         <button type="submit">등록</button>
+        <button type="button" onclick="window.location.href='/'">홈</button>
     </form>
 </div>
 </body>

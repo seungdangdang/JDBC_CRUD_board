@@ -1,10 +1,79 @@
-<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
-<div layout:fragment="content" class="container my-3">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    h3 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .form-label {
+      font-weight: bold;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .btn-primary {
+      display: block;
+      width: 70%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .home-btn {
+      width: 20%;
+      float: right;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    .alert-danger {
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #dc3545;
+      border-radius: 5px;
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+  </style>
+</head>
+<body>
+<div class="container my-3">
+  <h3>로그인하기</h3>
+
   <form th:action="@{/user/login}" method="post">
-    <div th:if="${param.error}">
-      <div class="alert alert-danger">
-        이름 또는 비밀번호를 확인해 주세요.
-      </div>
+    <div th:if="${param.error}" class="alert alert-danger">
+      이름 또는 비밀번호를 확인해 주세요.
     </div>
     <div class="mb-3">
       <label for="username" class="form-label">이름</label>
@@ -14,7 +83,11 @@
       <label for="password" class="form-label">비밀번호</label>
       <input type="password" name="password" id="password" class="form-control">
     </div>
+    <div class = "btn-container">
     <button type="submit" class="btn btn-primary">로그인</button>
+    <button type="button" class="btn btn-primary home-btn" onclick="window.location.href='/'">홈</button>
+    </div>
   </form>
 </div>
+</body>
 </html>

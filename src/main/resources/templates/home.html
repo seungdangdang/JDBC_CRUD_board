@@ -2,17 +2,56 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>기본페이지</title>
+    <title>CRUD 연습 게시판</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .link {
+            display: block;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .link:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
 </head>
 <body>
-게시판 홈 화면 <br><br>
-<a href="/create"> 글 등록하기 </a> <br>
-<a href="/view"> 글 조회하기 </a> <br>
-<a href="/delete"> 글 삭제하기 </a> <br>
-<a href="/user/signup"> 회원가입 </a> <br>
-<a href="/dummy_create"> 가짜데이터 1000개 생성하기 </a> <br>
-<a sec:authorize ="isAnonymous()" th:href="@{/user/login}">로그인</a>
-<a sec:authorize ="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+<div class="container">
+    <h1>CRUD 연습 게시판</h1>
+    <a sec:authorize="isAuthenticated()" th:href="@{/create}" class="link">글 등록하기</a>
+    <a href="/view" class="link">글 조회하기</a>
+    <a href="/user/signup" class="link">회원가입</a>
+    <a sec:authorize="isAnonymous()" th:href="@{/user/login}" class="link">로그인</a>
+    <a sec:authorize="isAuthenticated()" th:href="@{/user/logout}" class="link">로그아웃</a>
+    <br>
+    <br>
+    <a sec:authorize="isAuthenticated()" th:href="@{/dummy_create}" class = "link"> 가짜데이터 1000개 생성하기 </a>
+
+</div>
 </body>
 </html>

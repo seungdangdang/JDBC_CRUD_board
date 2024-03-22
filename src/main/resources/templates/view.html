@@ -1,73 +1,100 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <style>
+        /* Container Styles */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Table Styles */
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 20px;
         }
 
         th, td {
-            border: 1px solid black;
+            border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
         }
 
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Button Styles */
         .button-link {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #eaa1a1;
+            background-color: #007bff;
             color: #fff;
             text-decoration: none;
             border-radius: 5px;
+            margin-right: 10px;
         }
-        page-links {
-            margin-top: 10px; /* 페이지 번호와 테이블 사이의 간격을 조정합니다. */
+
+        .button-link:hover {
+            background-color: #0056b3;
+        }
+
+        /* Pagination Styles */
+        .page-links {
+            margin-top: 20px;
+            text-align: center;
         }
 
         .page-links span {
             display: inline-block;
-            margin-right: 5px; /* 페이지 번호 사이의 간격을 조정합니다. */
+            margin-right: 5px;
         }
 
         .page-links a {
-            text-decoration: none; /* 링크의 밑줄을 제거합니다. */
-            padding: 3px 8px; /* 페이지 번호 주위의 여백을 조정합니다. */
-            background-color: #f2f2f2; /* 배경색을 지정합니다. */
-            color: #333; /* 글자색을 지정합니다. */
-            border-radius: 3px; /* 페이지 번호 버튼의 모서리를 둥글게 만듭니다. */
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #f2f2f2;
+            color: #333;
+            text-decoration: none;
+            border-radius: 3px;
+            margin-right: 5px;
         }
 
         .page-links a:hover {
-            background-color: #ddd; /* 마우스를 올렸을 때 배경색을 변경합니다. */
+            background-color: #ddd;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <div>
-        <h3>게시글 조회하기</h3>
-        <table>
-            <thead>
-            <tr>
-                <th>번호</th>
-                <th>작성자</th>
-                <th>제목</th>
-                <th>내용</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="post : ${pagePosts}">
-                <td th:text="${post.postId}"></td>
-                <td th:text="${post.author}"></td>
-                <td><a th:href="@{/detail(postId=${post.postId})}" th:text="${post.title}"></a></td>
-                <td th:text="${post.content}"></td>
-            </tr>
-            <a class="button-link" href="/">홈</a>
-            <a class="button-link" href="create">등록</a>
-            </tbody>
-        </table>
+    <h1>게시글 조회하기</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>작성자</th>
+            <th>제목</th>
+            <th>내용</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Table Body Content -->
+        <tr th:each="post : ${pagePosts}">
+            <td th:text="${post.postId}"></td>
+            <td th:text="${post.author}"></td>
+            <td><a th:href="@{/detail(postId=${post.postId})}" th:text="${post.title}"></a></td>
+            <td th:text="${post.content}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- Button Links -->
+    <div class="button-links">
+        <a class="button-link" href="/">홈</a>
+        <a sec:authorize="isAuthenticated()" class="button-link" th:href="@{/create}">등록</a>
     </div>
+    <!-- Pagination Links -->
     <div class="page-links" style="padding-top: 6px; padding-bottom: 6px;">
         <span th:if="${totalPages > 1}">
             <a th:href="@{/view(page=${currentPage - 10})}" th:if="${currentPage > 10}" th:text="이전"></a>

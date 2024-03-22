@@ -1,30 +1,59 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>게시글 상세 페이지</title>
     <style>
+        /* Container Styles */
         .container {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th {
+            border: 1px solid #ddd;
+            padding: 8px;
             text-align: center;
         }
 
-        table {
-            width: 60%;
-            margin: 20px auto;
-        }
-
-        th, td {
+        td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
         }
 
-        a.button-link {
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .content td:nth-child(2) {
+            height: 200px; /* Adjust height as needed */
+        }
+
+        /* Button Styles */
+        .button-link {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #eaa1a1;
+            background-color: #007bff;
             color: #fff;
             text-decoration: none;
             border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .button-link:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -32,28 +61,28 @@
 <div class="container">
     <h3>게시글 상세 페이지</h3>
     <table>
-        <tr>
+        <tbody>
+        <tr class="detail-info">
             <th>번호</th>
-            <th>작성자</th>
-            <th>제목</th>
-            <th>내용</th>
-        </tr>
-        <tr>
             <td th:text="${post?.postId}"></td>
+        </tr>
+        <tr class="detail-info">
+            <th>작성자</th>
             <td th:text="${post?.author}"></td>
+        </tr>
+        <tr class="detail-info">
+            <th>제목</th>
             <td th:text="${post?.title}"></td>
+        </tr>
+        <tr class="content">
+            <th>내용</th>
             <td th:text="${post?.content}"></td>
         </tr>
+        </tbody>
     </table>
-    <!-- 목록으로 돌아가는 버튼 -->
+    <!-- Button Links -->
     <a href="/view" class="button-link">목록으로 돌아가기</a>
-
-    <!-- 유효한 Thymeleaf링크 (1) -->
-    <a th:href="@{/delete(postId=${post.postId})}" class="button-link">삭제</a>
-
-    <!-- 유효한 Thymeleaf링크 (2) -->
-    <!--    <a th:href="@{/delete/{postId}(postId=${post.id})}" class="button-link">삭제</a>-->
-
+    <a sec:authorize="isAuthenticated()" th:href="@{/delete(postId=${post.postId})}" class="button-link">삭제</a>
 </div>
 </body>
 </html>
